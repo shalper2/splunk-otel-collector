@@ -1,0 +1,23 @@
+receivers:
+  smartagent/collectd_mongodb:
+    type: collectd/mongodb
+    host: 127.0.0.1 
+    port: 27017
+    username: admin
+    password: password
+    databases: [admin]
+    extraMetrics: ["*"]
+    intervalSeconds: 1
+
+exporters:
+  otlp:
+    endpoint: "${OTLP_ENDPOINT}"
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    metrics:
+      receivers:
+        - smartagent/collectd_mongodb
+      exporters: [otlp]
